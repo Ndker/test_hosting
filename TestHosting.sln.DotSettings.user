@@ -1,0 +1,17 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/home/ndker/.nuget/packages/vostok.hosting/0.3.52-pre000164/lib/net6.0/Vostok.Hosting.dll" /&gt;
+  &lt;Assembly Path="/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App/3.1.24/Microsoft.Extensions.Hosting.Abstractions.dll" /&gt;
+  &lt;Assembly Path="/home/ndker/.nuget/packages/vostok.logging.abstractions/1.0.31-pre000061/lib/net6.0/Vostok.Logging.Abstractions.dll" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.12" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.13" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.15" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.16" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.18" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.19" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.20-pre000029" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.20-pre000030" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.3" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.5" Loaded="True" /&gt;
+  &lt;PhysicalFolder Path="/home/ndker/.nuget/packages/vostok.configuration.sources/0.1.9" Loaded="True" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

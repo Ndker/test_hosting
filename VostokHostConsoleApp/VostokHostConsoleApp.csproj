@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Vostok.Hosting.Abstractions" Version="0.3.8" />
+        <PackageReference Include="Vostok.Hosting.Kontur" Version="1.0.95" />
+
+        <PackageReference Include="Vostok.Hosting" Version="0.3.55" />
+    </ItemGroup>
+</Project>

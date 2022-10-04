@@ -1,0 +1,22 @@
+ notests *default:
+  build:
+    target: TestHosting.sln
+    configuration: NoTests
+    tool:
+      name: dotnet
+
+  deps:
+    - vostok.hosting@shared-environment-builders
+    - vostok.hosting.kontur
+    - vostok.applications.aspnetcore
+
+
+full-build > notests:
+  deps:
+    - -vostok.devtools
+    - vostok.devtools@with-net6.0
+    - vostok.commons.testing/src
+    
+  build:
+    target: TestHosting.sln
+    configuration: Release
