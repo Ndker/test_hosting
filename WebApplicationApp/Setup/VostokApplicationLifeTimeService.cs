@@ -10,13 +10,13 @@ public class VostokApplicationLifeTimeService : IHostedService
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly IVostokHostingEnvironment _environment;
 
-    private readonly ILogger _logger;
+    private readonly ILogger<VostokApplicationLifeTimeService> _logger;
     private readonly ILog _log; 
 
     public VostokApplicationLifeTimeService(
         IHostApplicationLifetime applicationLifetime,
         IVostokHostingEnvironment environment,
-        ILogger logger)
+        ILogger<VostokApplicationLifeTimeService> logger)
     {
         _applicationLifetime = applicationLifetime;
         _environment = environment;
@@ -42,6 +42,8 @@ public class VostokApplicationLifeTimeService : IHostedService
     private void OnStarted() {
         _logger.LogInformation("Logger OnStarted");
         _log.Info("VostokLog OnStarted");
+        
+        // TODO get port here ?
         
         _environment.ServiceBeacon.Start();
 

@@ -1,10 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Vostok.Applications.AspNetCore.Models;
 using Vostok.Configuration.Abstractions;
-using Vostok.Context;
 using Vostok.Hosting.Abstractions;
-using Vostok.Hosting.Abstractions.Requirements;
 
 namespace WebApplicationApp.Setup
 {
@@ -47,7 +44,7 @@ namespace WebApplicationApp.Setup
             // AddSettingsProviders(services, RequirementDetector.GetRequiredSecretConfigurations(application).Select(r => r.Type), environment.SecretConfigurationProvider);
             // AddSettingsProviders(services, RequirementDetector.GetRequiredMergedConfigurations(application).Select(r => r.Type), environment.ConfigurationProvider);
 
-            services.AddScoped(_ => FlowingContext.Globals.Get<IRequestInfo>());
+            // services.AddScoped(_ => FlowingContext.Globals.Get<IRequestInfo>());
 
             return services;
         }
