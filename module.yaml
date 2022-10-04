@@ -1,22 +1,47 @@
- notests *default:
+base:
+  build:
+    target: none
+    configuration: none
+
+  deps:
+    - vostok.hosting@shared-environment-builders
+    - vostok.clusterclient.core
+    - vostok.context
+    - vostok.devtools
+    - vostok.hosting.abstractions
+    - vostok.tracing.abstractions
+
+notests > base:
   build:
     target: TestHosting.sln
     configuration: NoTests
     tool:
       name: dotnet
+      
+  install:
+    - module vostok.applications.aspnetcore/notests
 
   deps:
-    - vostok.hosting@shared-environment-builders
-    - vostok.hosting.kontur
-    - vostok.applications.aspnetcore
+    - vostok.applications.aspnetcore/notests
 
+v6_0 > base:
+  build:
+    target: TestHosting.sln
+    configuration: NoTests
+    parameters: build -property:TargetFrameworks=net6.0
+    tool:
+      name: dotnet
 
-full-build > notests:
   deps:
-    - -vostok.devtools
-    - vostok.devtools@with-net6.0
-    - vostok.commons.testing/src
-    
+    - vostok.applications.aspnetcore.kontur/v6_0
+    - vostok.applications.aspnetcore/v6_0
+
+full-build > base:
   build:
     target: TestHosting.sln
     configuration: Release
+  
+  deps:
+    - -vostok.devtools
+    - vostok.devtools@with-net6.0
+    - vostok.applications.aspnetcore/full-build
