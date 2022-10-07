@@ -1,12 +1,13 @@
+using Vostok.Hosting.Abstractions;
 using Vostok.Hosting.Models;
 
 namespace WebApplicationApp._Trash;
 
 public class VostokHostLifeTime
 {
-    private readonly VostokHostingEnvironment _environment;
+    private readonly IVostokHostingEnvironment _environment;
 
-    public VostokHostLifeTime(VostokHostingEnvironment environment)
+    public VostokHostLifeTime(IVostokHostingEnvironment environment)
     {
         _environment = environment;
     }

@@ -8,9 +8,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Vostok.Hosting.Abstractions" Version="0.3.8" />
-        <PackageReference Include="Vostok.Hosting.Kontur" Version="1.0.95" />
+<!--        <PackageReference Include="Vostok.Hosting.Abstractions" Version="0.3.8" />-->
+<!--        <PackageReference Include="Vostok.Hosting.Kontur" Version="1.0.95" />-->
+<!--        <PackageReference Include="Vostok.Hosting" Version="0.3.51" />-->
 
-        <PackageReference Include="Vostok.Hosting" Version="0.3.55" />
+        <Reference Include="Vostok.Hosting">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.hosting\Vostok.Hosting\bin\Release\$(TargetFramework)\Vostok.Hosting.dll</HintPath>
+        </Reference>
+        <Reference Include="Vostok.Hosting.Abstractions">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.hosting.abstractions\Vostok.Hosting.Abstractions\bin\Release\$(TargetFramework)\Vostok.Hosting.Abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="Vostok.Logging.Abstractions">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.logging.abstractions\Vostok.Logging.Abstractions\bin\Release\$(TargetFramework)\Vostok.Logging.Abstractions.dll</HintPath>
+        </Reference>
+        
+        <Reference Include="Vostok.Hosting.Kontur">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.hosting.kontur\Vostok.Hosting.Kontur\bin\Release\$(TargetFramework)\Vostok.Hosting.Kontur.dll</HintPath>
+        </Reference>
+        
     </ItemGroup>
 </Project>

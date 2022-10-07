@@ -6,7 +6,7 @@ namespace VostokHostConsoleApp;
 
 class EntryPoint
 {
-    static Task Main(string[] args)
+    public static Task Main(string[] args)
     {
         var application = new VostokHostApplication();
 

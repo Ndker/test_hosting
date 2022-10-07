@@ -15,7 +15,7 @@ class EntryPoint
 
         var host = new VostokHost(hostSettings);
 
-        return host.WithConsoleCancellation().RunAsync();
+        return host.WithConsoleCancellation().WithSigtermCancellation().RunAsync();
     }
     
     static void EnvironmentSetup(IVostokHostingEnvironmentBuilder builder)

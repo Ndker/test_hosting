@@ -6,12 +6,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>WebApplicationApp</RootNamespace>
+        <AssemblyName>Vostok.WebApplication</AssemblyName>
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
-        
-<!--        <PackageReference Include="Vostok.Hosting.Kontur" Version="1.0.93" />-->
+<!--        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />-->
+
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+        <!--        <PackageReference Include="Vostok.Hosting.Kontur" Version="1.0.93" />-->
 <!--&lt;!&ndash;        <PackageReference Include="Vostok.Hosting.Abstractions" Version="0.3.9-pre000016" />&ndash;&gt;-->
 <!--        <PackageReference Include="Vostok.Hosting.Abstractions" Version="0.3.8" />-->
 <!--        <PackageReference Include="Vostok.Applications.AspNetCore" Version="0.3.8" />-->
@@ -24,11 +27,11 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>..\..\vostok.hosting\Vostok.Hosting\bin\Release\$(TargetFramework)\Vostok.Hosting.dll</HintPath>
         </Reference>
-
-<!--        <Reference Include="Vostok.Applications.AspNetCore">-->
-<!--            <SpecificVersion>False</SpecificVersion>-->
-<!--            <HintPath>..\..\vostok.applications.aspnetcore\Vostok.Applications.AspNetCore\bin\Release\$(TargetFramework)\Vostok.Applications.AspNetCore.dll</HintPath>-->
-<!--        </Reference>-->
+        
+        <Reference Include="Vostok.Applications.AspNetCore">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.applications.aspnetcore\Vostok.Applications.AspNetCore\bin\Release\$(TargetFramework)\Vostok.Applications.AspNetCore.dll</HintPath>
+        </Reference>
 
         <Reference Include="Vostok.Hosting.Kontur">
             <SpecificVersion>False</SpecificVersion>

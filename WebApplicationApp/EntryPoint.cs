@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Builder;
+using Vostok.Hosting;
 using Vostok.Hosting.Kontur;
 using Vostok.Hosting.Setup;
-using WebApplicationApp.Setup;
+using WebApplicationApp.Setup.Builder;
 
 namespace WebApplicationApp;
 
@@ -10,26 +11,22 @@ public class EntryPoint
     static Task Main(string[] args)
     {
         var webApplicationBuilder = WebApplication.CreateBuilder(args);
-        
-        webApplicationBuilder.SetupVostok(EnvironmentSetup);
 
-        // webApplicationBuilder.Services.Add();
-        
-        // webApplicationBuilder.Logging
-        
-        // webApplicationBuilder.Host.
-        
-        // webApplicationBuilder.WebHost
-        
+        var settings = new VostokHostingEnvironmentFactorySettings();
+        // {
+        //     DiagnosticMetricsEnabled = true
+        // };
 
+        webApplicationBuilder.SetupVostok(EnvironmentSetup, settings);
+        
         var app = webApplicationBuilder.Build();
-        
 
         app.MapGet("/", () => "Hello World!");
 
         // return app.Run();
+        return app.RunAsync();
 
-        return app.RunAsync("http://fedora:3000");
+        // return app.RunAsync("http://fedora:3000");
     }
 
     private static void EnvironmentSetup(IVostokHostingEnvironmentBuilder builder)
@@ -44,6 +41,11 @@ public class EntryPoint
                 .SetupConsoleLog())
             .SetPort(3001)
             .SetBaseUrlPath("fedora")
-            .SetupForKontur();
+            .SetupForKontur()
+            .SetupSystemMetrics(metrics =>
+            {
+                metrics.EnableHostMetricsLogging = true;
+                metrics.EnableHostMetricsReporting = true;
+            });
     }
 }

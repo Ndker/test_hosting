@@ -1,28 +1,29 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Vostok.Hosting.Abstractions;
-using Vostok.Logging.Abstractions;
 
-namespace WebApplicationApp.Setup;
+namespace WebApplicationApp.Setup.Application;
 
 public class VostokApplicationLifeTimeService : IHostedService
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly IVostokHostingEnvironment _environment;
+    private readonly DisposableContainer _disposableContainer;
 
     private readonly ILogger<VostokApplicationLifeTimeService> _logger;
-    private readonly ILog _log; 
 
     public VostokApplicationLifeTimeService(
         IHostApplicationLifetime applicationLifetime,
         IVostokHostingEnvironment environment,
-        ILogger<VostokApplicationLifeTimeService> logger)
+        DisposableContainer disposableContainer,
+        ILogger<VostokApplicationLifeTimeService> logger
+    )
     {
         _applicationLifetime = applicationLifetime;
         _environment = environment;
         _logger = logger;
-
-        _log = environment.Log.ForContext<VostokApplicationLifeTimeService>();
+        _disposableContainer = disposableContainer;
+        
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -31,38 +32,37 @@ public class VostokApplicationLifeTimeService : IHostedService
         _applicationLifetime.ApplicationStopping.Register(OnStopping);
         _applicationLifetime.ApplicationStopped.Register(OnStopped);
 
-        return Task.CompletedTask;   
+        return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
-    
-    private void OnStarted() {
+
+    private void OnStarted()
+    {
         _logger.LogInformation("Logger OnStarted");
-        _log.Info("VostokLog OnStarted");
-        
-        // TODO get port here ?
-        
+
         _environment.ServiceBeacon.Start();
 
         // Perform post-startup activities here
     }
 
-    private void OnStopping() {
+    private void OnStopping()
+    {
         _logger.LogInformation("Logger OnStopping");
-        _log.Info("VostokLog OnStopping");
 
-        // Perform on-stopping activities here
-    }
-
-    private void OnStopped() {
-        _logger.LogInformation("Logger OnStopped");
-        _log.Info("VostokLog OnStopped");
-        
         _environment.ServiceBeacon.Stop();
 
-        // Perform post-stopped activities here
-    }  
+        (_environment as IDisposable)?.Dispose();
+        _disposableContainer.DoDispose();
+
+        // disposables.ForEach(disposable => disposable?.Dispose());
+    }
+
+    private void OnStopped()
+    {
+        _logger.LogInformation("Logger OnStopped");
+    }
 }
