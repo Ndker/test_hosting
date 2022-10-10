@@ -6,7 +6,7 @@ using WebApplicationApp.Setup.Builder;
 
 namespace WebApplicationApp;
 
-public class EntryPoint
+public static class EntryPoint
 {
     static Task Main(string[] args)
     {

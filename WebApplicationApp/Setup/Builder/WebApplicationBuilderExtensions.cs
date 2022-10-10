@@ -24,11 +24,10 @@ public static class WebApplicationBuilderExtensions
             setupEnvironment, settings);
 
         applicationBuilder.Logging.SetupVostok(environment);
-        applicationBuilder.WebHost.SetupVostok(environment, disposables);
         applicationBuilder.Configuration.SetupVostok(environment);
+        applicationBuilder.SetupWebHost(environment, disposables);
         applicationBuilder.Services.SetupVostok(environment);
 
         applicationBuilder.Services.AddSingleton(new DisposableContainer(disposables));
-
     }
 }
