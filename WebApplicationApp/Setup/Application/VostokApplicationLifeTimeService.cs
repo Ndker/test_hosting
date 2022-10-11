@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Hosting;
 using Vostok.Commons.Time;
 using Vostok.Hosting.Abstractions;
+using Vostok.Hosting.Abstractions.Helpers;
 using Vostok.Hosting.Helpers;
 using Vostok.Logging.Abstractions;
 using Vostok.ServiceDiscovery;
@@ -9,32 +10,35 @@ namespace WebApplicationApp.Setup.Application;
 
 public class VostokApplicationLifeTimeService : IHostedService
 {
-    private readonly IHostApplicationLifetime _applicationLifetime;
-    private readonly IVostokHostingEnvironment _environment;
-    private readonly DisposableContainer _disposableContainer;
+    private readonly IHostApplicationLifetime applicationLifetime;
+    private readonly IVostokHostingEnvironment environment;
+    private readonly DisposableContainer disposableContainer;
+    private readonly IVostokHostShutdown vostokHostShutdown;
 
-    private readonly ILog _log;
+    private readonly ILog log;
 
     public VostokApplicationLifeTimeService(
         IHostApplicationLifetime applicationLifetime,
         IVostokHostingEnvironment environment,
-        DisposableContainer disposableContainer
+        DisposableContainer disposableContainer,
+        IVostokHostShutdown vostokHostShutdown
     )
     {
-        _applicationLifetime = applicationLifetime;
-        _environment = environment;
-        _disposableContainer = disposableContainer;
+        this.applicationLifetime = applicationLifetime;
+        this.environment = environment;
+        this.disposableContainer = disposableContainer;
+        this.vostokHostShutdown = vostokHostShutdown;
 
-        _log = _environment.Log.ForContext<VostokApplicationLifeTimeService>();
+        log = this.environment.Log.ForContext<VostokApplicationLifeTimeService>();
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _environment.WarmUp(_log);
+        environment.WarmUp(log);
 
-        _applicationLifetime.ApplicationStarted.Register(OnStartedAsync);
-        _applicationLifetime.ApplicationStopping.Register(OnStopping);
-        _applicationLifetime.ApplicationStopped.Register(OnStopped);
+        applicationLifetime.ApplicationStarted.Register(OnStartedAsync);
+        applicationLifetime.ApplicationStopping.Register(OnStopping);
+        applicationLifetime.ApplicationStopped.Register(OnStopped);
 
         return Task.CompletedTask;
     }
@@ -46,34 +50,33 @@ public class VostokApplicationLifeTimeService : IHostedService
 
     private async void OnStartedAsync()
     {
-        _log.Info("Logger OnStarted");
+        log.Info("OnStarted application life time cycle event");
 
+        environment.ServiceBeacon.Start();
 
-        _environment.ServiceBeacon.Start();
-
-        if (_environment.ServiceBeacon is ServiceBeacon convertedBeacon)
+        if (environment.ServiceBeacon is ServiceBeacon convertedBeacon)
         {
             await convertedBeacon.WaitForInitialRegistrationAsync()
                 .WaitAsync(10.Seconds())
                 .ConfigureAwait(false);
         }
-        
+
 
         // Perform post-startup activities here
     }
 
     private void OnStopping()
     {
-        _log.Info("Logger OnStopping");
-
-        _environment.ServiceBeacon.Stop();
-
-        (_environment as IDisposable)?.Dispose();
-        _disposableContainer.DoDispose();
+        log.Info("OnStopping application life time cycle event");
+        
+        vostokHostShutdown?.Initiate();
     }
 
     private void OnStopped()
     {
-        _log.Info("Logger OnStopped");
+        log.Info("OnStopped application life time cycle event");
+
+        (environment as IDisposable)?.Dispose();
+        disposableContainer.DoDispose();
     }
 }

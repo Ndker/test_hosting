@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Vostok.Commons.Time;
 using Vostok.Hosting;
+using Vostok.Hosting.Abstractions.Helpers;
 using Vostok.Hosting.Setup;
 using WebApplicationApp.Setup.Application;
 
@@ -18,16 +20,38 @@ public static class WebApplicationBuilderExtensions
         [NotNull] VostokHostingEnvironmentFactorySettings settings
     )
     {
-        List<IDisposable> disposables = new List<IDisposable>();
-        
+        var disposables = new List<IDisposable>();
+        var shutdownTokenSource = new CancellationTokenSource();
+
         var environment = VostokHostingEnvironmentFactory.Create(
-            setupEnvironment, settings);
+            WrapSetupDelegate(setupEnvironment, shutdownTokenSource), settings);
 
         applicationBuilder.Logging.SetupVostok(environment);
         applicationBuilder.Configuration.SetupVostok(environment);
         applicationBuilder.SetupWebHost(environment, disposables);
-        applicationBuilder.Services.SetupVostok(environment);
+        applicationBuilder.Services
+            .SetupVostok(environment)
+            .SetupVostokShutdown(environment, new VostokHostShutdown(shutdownTokenSource))
+            .AddSingleton(new DisposableContainer(disposables));
+    }
 
-        applicationBuilder.Services.AddSingleton(new DisposableContainer(disposables));
+    private static VostokHostingEnvironmentSetup WrapSetupDelegate(VostokHostingEnvironmentSetup setup,
+        CancellationTokenSource shutdownTokenSource)
+    {
+        return builder =>
+        {
+            builder.SetupShutdownToken(shutdownTokenSource.Token);
+            builder.SetupShutdownTimeout(15.Seconds());
+            // builder.SetupShutdownTimeout(ShutdownConstants.DefaultShutdownTimeout);
+            builder.SetupHostExtensions(
+                extensions =>
+                {
+                    var vostokHostShutdown = new VostokHostShutdown(shutdownTokenSource);
+                    extensions.Add(vostokHostShutdown);
+                    extensions.Add(typeof(IVostokHostShutdown), vostokHostShutdown);
+                });
+
+            setup(builder);
+        };
     }
 }

@@ -2,15 +2,15 @@ namespace WebApplicationApp.Setup.Application;
 
 public class DisposableContainer
 {
-    private readonly List<IDisposable> _disposables;
+    private readonly List<IDisposable> disposables;
 
     public DisposableContainer(List<IDisposable> disposables)
     {
-        _disposables = disposables;
+        this.disposables = disposables;
     }
 
     public void DoDispose()
     {
-        _disposables.ForEach(disposable => disposable?.Dispose());
+        disposables.ForEach(disposable => disposable?.Dispose());
     }
 }
