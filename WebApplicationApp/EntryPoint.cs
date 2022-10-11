@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Vostok.Hosting;
+using Vostok.Hosting.Aspnetcore.Builder;
 using Vostok.Hosting.Kontur;
 using Vostok.Hosting.Setup;
-using WebApplicationApp.Setup.Builder;
 
 namespace WebApplicationApp;
 

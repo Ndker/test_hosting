@@ -5,6 +5,7 @@ base:
 
   deps:
     - vostok.hosting
+    - vostok.hosting.aspnetcore
     - vostok.clusterclient.core
     - vostok.context
     - vostok.devtools
