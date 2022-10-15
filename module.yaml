@@ -4,38 +4,14 @@ base:
     configuration: none
 
   deps:
-    - vostok.hosting
+    - vostok.hosting@web-application-app-hosting
+    - vostok.applications.aspnetcore@web-application-app-hosting
     - vostok.hosting.aspnetcore
     - vostok.clusterclient.core
     - vostok.context
     - vostok.devtools
     - vostok.hosting.abstractions
     - vostok.tracing.abstractions
-
-notests > base:
-  build:
-    target: TestHosting.sln
-    configuration: NoTests
-    tool:
-      name: dotnet
-      
-  install:
-    - module vostok.applications.aspnetcore/notests
-
-  deps:
-    - vostok.applications.aspnetcore/notests
-
-v6_0 > base:
-  build:
-    target: TestHosting.sln
-    configuration: NoTests
-    parameters: build -property:TargetFrameworks=net6.0
-    tool:
-      name: dotnet
-
-  deps:
-    - vostok.applications.aspnetcore.kontur/v6_0
-    - vostok.applications.aspnetcore/v6_0
 
 full-build > base:
   build:

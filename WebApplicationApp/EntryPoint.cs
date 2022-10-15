@@ -1,4 +1,13 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Vostok.Hosting;
 using Vostok.Hosting.Aspnetcore.Builder;
 using Vostok.Hosting.Kontur;
@@ -19,8 +28,29 @@ public static class EntryPoint
 
         webApplicationBuilder.SetupVostok(EnvironmentSetup, settings);
         
+        webApplicationBuilder.Services.AddMvcCore(options =>
+            {
+                options.ModelBinderProviders.Add(new DateTimeModelBinderProvider());
+                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+                options.EnableEndpointRouting = false;
+            })
+            .AddApplicationPart(Assembly.GetEntryAssembly())
+            .AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                opt.SerializerSettings.Converters = new JsonConverter[]
+                {
+                    new StringEnumConverter()
+                };
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Latest);
+        
+        webApplicationBuilder.WebHost.UseUrls("http://fedora:3001");
+        
         var app = webApplicationBuilder.Build();
-
+        
+        app.UseMvc();
+        
         app.MapGet("/", () => "Hello World!");
 
         // return app.Run();
