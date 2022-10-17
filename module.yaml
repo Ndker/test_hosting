@@ -4,7 +4,7 @@ base:
     configuration: none
 
   deps:
-    - vostok.hosting@web-application-app-hosting
+    - vostok.hosting@setup-vostok-on-builders
     - vostok.applications.aspnetcore@web-application-app-hosting
     - vostok.hosting.aspnetcore
     - vostok.clusterclient.core

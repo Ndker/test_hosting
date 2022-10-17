@@ -8,11 +8,11 @@
         <RootNamespace>WebApplicationApp</RootNamespace>
         <AssemblyName>Vostok.WebApplication</AssemblyName>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.18" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.18"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Vostok.Hosting.Aspnetcore">
@@ -38,11 +38,16 @@
             <HintPath>..\..\vostok.applications.aspnetcore\Vostok.Applications.AspNetCore\bin\Release\$(TargetFramework)\Vostok.Applications.AspNetCore.dll</HintPath>
         </Reference>
 
+        <Reference Include="Vostok.Applications.AspNetCore.Kontur">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\vostok.applications.aspnetcore.kontur\Vostok.Applications.AspNetCore.Kontur\bin\Release\$(TargetFramework)\Vostok.Applications.AspNetCore.Kontur.dll</HintPath>
+        </Reference>
+
         <Reference Include="Vostok.Hosting.Kontur">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>..\..\vostok.hosting.kontur\Vostok.Hosting.Kontur\bin\Release\$(TargetFramework)\Vostok.Hosting.Kontur.dll</HintPath>
         </Reference>
 
     </ItemGroup>
-    
+
 </Project>

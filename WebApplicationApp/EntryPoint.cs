@@ -8,7 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Vostok.Applications.AspNetCore.Builders;
+using Vostok.Applications.AspNetCore.Kontur;
 using Vostok.Hosting;
+using Vostok.Hosting.Abstractions;
 using Vostok.Hosting.Aspnetcore.Builder;
 using Vostok.Hosting.Kontur;
 using Vostok.Hosting.Setup;
@@ -26,8 +29,7 @@ public static class EntryPoint
         //     DiagnosticMetricsEnabled = true
         // };
 
-        webApplicationBuilder.SetupVostok(EnvironmentSetup, settings);
-        
+
         webApplicationBuilder.Services.AddMvcCore(options =>
             {
                 options.ModelBinderProviders.Add(new DateTimeModelBinderProvider());
@@ -44,13 +46,16 @@ public static class EntryPoint
                 };
             })
             .SetCompatibilityVersion(CompatibilityVersion.Latest);
-        
+
         webApplicationBuilder.WebHost.UseUrls("http://fedora:3001");
-        
+
+        webApplicationBuilder.SetupVostok(EnvironmentSetup, settings);
+        webApplicationBuilder.SetupVostokWebApplication(WebApplicationSetup);
+
         var app = webApplicationBuilder.Build();
-        
+
         app.UseMvc();
-        
+
         app.MapGet("/", () => "Hello World!");
 
         // return app.Run();
@@ -77,5 +82,11 @@ public static class EntryPoint
                 metrics.EnableHostMetricsLogging = true;
                 metrics.EnableHostMetricsReporting = true;
             });
+    }
+
+    private static void WebApplicationSetup(IVostokAspNetCoreWebApplicationBuilder builder,
+        IVostokHostingEnvironment environment)
+    {
+        builder.SetupForKontur();
     }
 }
