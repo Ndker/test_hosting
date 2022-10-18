@@ -12,7 +12,7 @@ using Vostok.Applications.AspNetCore.Builders;
 using Vostok.Applications.AspNetCore.Kontur;
 using Vostok.Hosting;
 using Vostok.Hosting.Abstractions;
-using Vostok.Hosting.Aspnetcore.Builder;
+using Vostok.Hosting.AspNetCore.Builder;
 using Vostok.Hosting.Kontur;
 using Vostok.Hosting.Setup;
 
