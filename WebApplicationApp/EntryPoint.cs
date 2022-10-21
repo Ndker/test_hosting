@@ -12,9 +12,10 @@ using Vostok.Applications.AspNetCore.Builders;
 using Vostok.Applications.AspNetCore.Kontur;
 using Vostok.Hosting;
 using Vostok.Hosting.Abstractions;
-using Vostok.Hosting.AspNetCore.Builder;
+using Vostok.Hosting.AspNetCore;
 using Vostok.Hosting.Kontur;
 using Vostok.Hosting.Setup;
+using WebApplicationApp.Controllers;
 
 namespace WebApplicationApp;
 
@@ -24,7 +25,7 @@ public static class EntryPoint
     {
         var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-        var settings = new VostokHostingEnvironmentFactorySettings();
+        // var settings = new VostokHostingEnvironmentFactorySettings();
         // {
         //     DiagnosticMetricsEnabled = true
         // };
@@ -36,7 +37,7 @@ public static class EntryPoint
                 options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
                 options.EnableEndpointRouting = false;
             })
-            .AddApplicationPart(Assembly.GetEntryAssembly())
+            .AddApplicationPart(typeof(TestController).Assembly)
             .AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -49,8 +50,16 @@ public static class EntryPoint
 
         webApplicationBuilder.WebHost.UseUrls("http://fedora:3001");
 
-        webApplicationBuilder.SetupVostok(EnvironmentSetup, settings);
-        webApplicationBuilder.SetupVostokWebApplication(WebApplicationSetup);
+
+        webApplicationBuilder.Services
+            .AddOptions<VostokHostingEnvironmentFactorySettings>()
+            .Configure(s =>
+            {
+                s.BeaconShutdownTimeout = TimeSpan.FromSeconds(3);
+            });
+        
+            webApplicationBuilder.SetupVostok(EnvironmentSetup);
+        // webApplicationBuilder.SetupVostokWebApplication(WebApplicationSetup);
 
         var app = webApplicationBuilder.Build();
 

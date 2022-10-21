@@ -4,8 +4,8 @@ base:
     configuration: none
 
   deps:
-    - vostok.hosting@setup-vostok-on-builders
-    - vostok.applications.aspnetcore@web-application-app-hosting
+    - vostok.hosting@web-application-app-hosting
+    - vostok.applications.aspnetcore@di-injection/v6_0
     - vostok.hosting.aspnetcore
     - vostok.clusterclient.core
     - vostok.context
@@ -21,4 +21,3 @@ full-build > base:
   deps:
     - -vostok.devtools
     - vostok.devtools@with-net6.0
-    - vostok.applications.aspnetcore/full-build
